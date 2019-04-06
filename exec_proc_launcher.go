@@ -1,9 +1,9 @@
 package gosh
 
 import (
-	"fmt"
+	//Edit! Added bytes got rid of fmt
 	"os/exec"
-
+	"bytes"
 	"github.com/polydawn/gosh/iox"
 )
 
@@ -46,8 +46,17 @@ func execLauncher(cmdt Opts, trailingHook func(*exec.Cmd)) Proc {
 	if cmdt.In != nil {
 		switch in := cmdt.In.(type) {
 		case Command:
-			//TODO something marvelous
-			panic(fmt.Errorf("not yet implemented"))
+			// Edit! : DONE something marvelous
+			// Piping by Composition!
+			var buf bytes.Buffer
+
+			in(Opts{Out: &buf})
+
+			cmd.Stdin = &buf
+
+			//Deleted "not implemented yet" panic
+			//End Edit!
+			
 		default:
 			cmd.Stdin = iox.ReaderFromInterface(in)
 		}

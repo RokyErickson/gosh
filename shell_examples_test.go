@@ -83,6 +83,36 @@ func ExamplePipelineBetter() {
 	// 3
 }
 
+//Edit! Piping by Composition! The best piping method. 
+func ExamplePipingByCompositon() {
+	/*Pipe one command's output into anothers input
+	using object composition and recursion,
+	no manipulting pipes or job control required.
+	Jobs are simply started in unison and
+	the outputs of the inner commands are piped
+	into inputs of the outer commands, streamingly.
+	Pipes are recursive so an arbitary number of
+	commands can be linked together.
+	This is the bash equivalent of:
+
+	echo Piping by Composition is Magic! | dd | cat -n    */
+
+        
+
+	echo := Gosh("echo", "Piping by Composition is Magic!")
+        dd := Gosh("dd", Opts{In: echo})
+        cat := Gosh("cat", "-n", Opts{In: dd})
+        cat.Run()
+
+	/* Output :
+        0+1 records in
+        0+1 records out
+        32 bytes transferred in 0.000017 secs (1890391 bytes/sec)
+             1  Piping by Composition is Magic!
+        */
+	
+}
+
 func ExampleBakingAShell() {
 	shell := Gosh("bash", "-c")
 	shell("echo 'this is a shell eval'")
