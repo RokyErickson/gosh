@@ -1,9 +1,10 @@
 package gosh
 
 import (
-	//Edit! Added bytes got rid of fmt
+	//Edit! Added bytes and io got rid of fmt
 	"os/exec"
 	"bytes"
+	"io"
 	"github.com/polydawn/gosh/iox"
 )
 
@@ -52,7 +53,16 @@ func execLauncher(cmdt Opts, trailingHook func(*exec.Cmd)) Proc {
 
 			in(Opts{Out: &buf})
 
-			cmd.Stdin = &buf
+			// Edit! : Added in memory pipe to pipe
+
+			r, w := io.Pipe()
+
+			go func() {
+				defer w.Close()
+				io.Copy(w, &buf)
+			}()
+
+			cmd.Stdin = r
 
 			//Deleted "not implemented yet" panic
 			//End Edit!
