@@ -2,10 +2,10 @@ package gosh
 
 import (
 	//Edit! Added bytes and io got rid of fmt
-	"os/exec"
 	"bytes"
+	"github.com/RokyErickson/gosh/iox"
 	"io"
-	"github.com/polydawn/gosh/iox"
+	"os/exec"
 )
 
 var _ Launcher = ExecLauncher
@@ -53,9 +53,9 @@ func execLauncher(cmdt Opts, trailingHook func(*exec.Cmd)) Proc {
 
 			in(Opts{Out: &buf})
 
-			// Edit! : Added in memory pipe to pipe
-
 			r, w := io.Pipe()
+
+			//Edit! : Added in memory pipe to pipe
 
 			go func() {
 				defer w.Close()
@@ -66,7 +66,6 @@ func execLauncher(cmdt Opts, trailingHook func(*exec.Cmd)) Proc {
 
 			//Deleted "not implemented yet" panic
 			//End Edit!
-			
 		default:
 			cmd.Stdin = iox.ReaderFromInterface(in)
 		}

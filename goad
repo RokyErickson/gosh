@@ -12,7 +12,7 @@ export BASEDIR="$PWD"
 
 # Project details
 name="gosh"
-pkg="github.com/polydawn/$name"
+pkg="github.com/RokyErickson/$name"
 
 
 

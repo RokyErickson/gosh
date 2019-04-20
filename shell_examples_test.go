@@ -3,7 +3,7 @@ package gosh_test
 import (
 	"fmt"
 
-	. "github.com/polydawn/gosh"
+	. "github.com/RokyErickson/gosh"
 )
 
 func ExampleNormalFlow() {
@@ -83,7 +83,7 @@ func ExamplePipelineBetter() {
 	// 3
 }
 
-//Edit! Piping by Composition! The best piping method. 
+//Edit! Piping by Composition! The best piping method.
 func ExamplePipingByCompositon() {
 	/*Pipe one command's output into anothers input
 	using object composition and recursion,
@@ -97,20 +97,18 @@ func ExamplePipingByCompositon() {
 
 	echo Piping by Composition is Magic! | dd | cat -n    */
 
-        
-
 	echo := Gosh("echo", "Piping by Composition is Magic!")
-        dd := Gosh("dd", Opts{In: echo})
-        cat := Gosh("cat", "-n", Opts{In: dd})
-        cat.Run()
+	dd := Gosh("dd", Opts{In: echo})
+	cat := Gosh("cat", "-n", Opts{In: dd})
+	cat.Run()
 
 	/* Output :
-        0+1 records in
-        0+1 records out
-        32 bytes transferred in 0.000017 secs (1890391 bytes/sec)
-             1  Piping by Composition is Magic!
-        */
-	
+	   0+1 records in
+	   0+1 records out
+	   32 bytes transferred in 0.000017 secs (1890391 bytes/sec)
+	        1  Piping by Composition is Magic!
+	*/
+
 }
 
 func ExampleBakingAShell() {
